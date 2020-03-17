@@ -1,0 +1,9 @@
+---
+- hosts: git
+  roles:
+   - ansible-role-chrony
+   - common
+   - network
+   - updates
+
+...

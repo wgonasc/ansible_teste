@@ -1,0 +1,23 @@
+---
+# Logs de comandos
+- name: transferencia ojdbc
+  copy:  src=ojdbc8-full.tar.gz  dest=/docker_storage_bind/jdbc backup=yes force=yes owner=root group=root mode=0644
+
+#Cria diretorio
+- name: cria diretorio /docker_storage_bind/jdbc/ojdbc8
+  file:
+    path: /docker_storage_bind/jdbc/ojdbc8
+    state: directory
+    mode: 0755
+
+# Descompactar o jdbcda oracle
+- name: descompactar ojdbc
+  unarchive:
+    src: /docker_storage_bind/jdbc/ojdbc8-full.tar.gz
+    dest: /docker_storage_bind/jdbc/ojdbc8
+    remote_src: yes 
+
+
+
+
+...

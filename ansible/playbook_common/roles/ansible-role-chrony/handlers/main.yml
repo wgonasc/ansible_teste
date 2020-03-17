@@ -1,0 +1,6 @@
+---
+#Reiniciar o chrony pos o processo
+- name: restart chrony
+  systemd: name={{ chrony_service_name }} state=restarted
+
+...

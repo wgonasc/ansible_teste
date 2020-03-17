@@ -1,0 +1,41 @@
+---
+#Reiniciar o servico de network
+- name: restart network
+  systemd: name=network state=restarted
+
+#Reiniciar o servico de NetworkManager
+- name: restart NetworkManager
+  systemd: name=NetworkManager state=stopped enabled=no masked=yes force=yes
+
+- name: rmmodipv6
+  command: rmmod ipv6
+  ignore_errors: true
+  when: >
+    not (ansible_virtualization_type is defined and
+          (ansible_virtualization_type == "lxc" or ansible_virtualization_type == "docker")
+        )
+- name: modipv6
+  command: modprobe ipv6
+  ignore_errors: true
+  when: >
+    not (ansible_virtualization_type is defined and
+          (ansible_virtualization_type == "lxc" or ansible_virtualization_type == "docker")
+        )
+
+- name: reload sysctl.conf
+  command: /sbin/sysctl -p
+  ignore_errors: yes
+
+- name: flush routes
+  command: /sbin/sysctl -w net.ipv4.route.flush=1
+
+- name: remove NetworkManager
+  systemd:  state=stopped enabled=no masked=yes force=yes
+  name: NetworkManager
+    state: stopped
+    enabled: no
+    masked: yes
+    force: yes
+  register: NetworkManager_result
+
+...

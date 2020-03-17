@@ -1,0 +1,34 @@
+---
+
+#Update de pacotes
+- name: update the system
+  yum:
+    name: "*"
+    update_cache: yes
+    state: latest
+
+#Checagem do repositorio EPEL
+- name: Checagem do repositorio EPEL esta cofigurado
+  stat: path={{ epel_repofile_path }}
+  register: epel_repofile_result
+
+#Importacao da chave GPG EPEL 
+- name: Instalacao do Repositorio EPEL
+  yum:
+    name: "{{ epel_repo_url }}"
+    state: present
+  register: result
+  when: not epel_repofile_result.stat.exists
+
+#Importacao da chave GPG EPEL 
+- name: Importacao da chave GPG EPEL
+  rpm_key:
+    key: "{{ epel_repo_gpg_key_url }}"
+    state: present
+  when: not epel_repofile_result.stat.exists
+
+
+
+
+
+...

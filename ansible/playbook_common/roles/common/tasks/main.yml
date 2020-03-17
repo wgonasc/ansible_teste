@@ -1,0 +1,21 @@
+---
+#Desabilitar o SELinux
+- name: Disable SELinux
+  selinux:
+    state: disabled
+
+# Transferencia do banner
+- name: Banner
+  template:  src=motd-facts.j2 dest=/etc/motd force=yes owner=root group=root mode=0644
+
+# Logs de comandos
+- name: Log de comando bashrc
+  copy:  src=bashrc  dest=/etc/bashrc backup=yes force=yes owner=root group=root mode=0644
+
+# Habilitando logs
+- name: Habilitando os logs
+  copy:  src=command-log_bash dest=/etc/rsyslog.d/bash.conf  force=yes owner=root group=root mode=0644
+  notify: 
+  - Reiniciar o servico rsyslog
+
+...

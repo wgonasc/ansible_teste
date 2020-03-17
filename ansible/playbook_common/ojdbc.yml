@@ -1,0 +1,8 @@
+---
+- hosts: git
+  roles:
+   - ojdbc8
+
+
+
+...

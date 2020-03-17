@@ -1,0 +1,8 @@
+---
+#Reiniciar o servico de rsyslog
+- name: Reiniciar o servico rsyslog
+  systemd: name=rsyslog state=restarted
+
+
+
+...
